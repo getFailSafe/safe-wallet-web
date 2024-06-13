@@ -68,7 +68,7 @@ export const SignOrExecuteForm = ({
   safeTxError: ReturnType<typeof useSafeTxError>
 }): ReactElement => {
   const { transactionExecution } = useAppSelector(selectSettings)
-  const [shouldExecute,] = useState<boolean>(transactionExecution)
+  const [shouldExecute] = useState<boolean>(transactionExecution)
   const isCreation = !props.txId
   const isNewExecutableTx = useImmediatelyExecutable() && isCreation
   const isCorrectNonce = useValidateNonce(safeTx)
