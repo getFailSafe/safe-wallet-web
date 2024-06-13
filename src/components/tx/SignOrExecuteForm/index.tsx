@@ -1,9 +1,10 @@
+// core/safe-wallet-web/src/components/tx/SignOrExecuteForm/index.tsx
+
 import CounterfactualForm from '@/features/counterfactual/CounterfactualForm'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import { type ReactElement, type ReactNode, useState, useContext, useCallback } from 'react'
 import madProps from '@/utils/mad-props'
 import DecodedTx from '../DecodedTx'
-import ExecuteCheckbox from '../ExecuteCheckbox'
 import { WrongChainWarning } from '../WrongChainWarning'
 import { useImmediatelyExecutable, useValidateNonce } from './hooks'
 import ExecuteForm from './ExecuteForm'
@@ -26,7 +27,6 @@ import { getTransactionTrackingType } from '@/services/analytics/tx-tracking'
 import { TX_EVENTS } from '@/services/analytics/events/transactions'
 import { trackEvent } from '@/services/analytics'
 import useChainId from '@/hooks/useChainId'
-import PermissionsCheck from './PermissionsCheck'
 
 export type SubmitCallback = (txId: string, isExecuted?: boolean) => void
 
@@ -68,7 +68,7 @@ export const SignOrExecuteForm = ({
   safeTxError: ReturnType<typeof useSafeTxError>
 }): ReactElement => {
   const { transactionExecution } = useAppSelector(selectSettings)
-  const [shouldExecute, setShouldExecute] = useState<boolean>(transactionExecution)
+  const [shouldExecute,] = useState<boolean>(transactionExecution)
   const isCreation = !props.txId
   const isNewExecutableTx = useImmediatelyExecutable() && isCreation
   const isCorrectNonce = useValidateNonce(safeTx)
@@ -81,6 +81,7 @@ export const SignOrExecuteForm = ({
   // If checkbox is checked and the transaction is executable, execute it, otherwise sign it
   const canExecute = isCorrectNonce && (props.isExecutable || isNewExecutableTx)
   const willExecute = (props.onlyExecute || shouldExecute) && canExecute
+  const optionalExecute = canExecute && !props.onlyExecute && !isCounterfactualSafe
 
   const onFormSubmit = useCallback<SubmitCallback>(
     async (txId, isExecuted = false) => {
@@ -120,15 +121,9 @@ export const SignOrExecuteForm = ({
         </TxCard>
       )}
 
-      {!isCounterfactualSafe && safeTx && isCreation && (
-        <ErrorBoundary>
-          <PermissionsCheck onSubmit={onSubmit} safeTx={safeTx} safeTxError={safeTxError} />
-        </ErrorBoundary>
-      )}
-
       <TxCard>
         <ConfirmationTitle
-          variant={willExecute ? ConfirmationTitleTypes.execute : ConfirmationTitleTypes.sign}
+          variant={!optionalExecute && willExecute ? ConfirmationTitleTypes.execute : ConfirmationTitleTypes.sign}
           isCreation={isCreation}
         />
 
@@ -138,7 +133,7 @@ export const SignOrExecuteForm = ({
           </ErrorMessage>
         )}
 
-        {canExecute && !props.onlyExecute && !isCounterfactualSafe && <ExecuteCheckbox onChange={setShouldExecute} />}
+        {/* {canExecute && !props.onlyExecute && !isCounterfactualSafe && <ExecuteCheckbox onChange={setShouldExecute} />} */}
 
         <WrongChainWarning />
 
@@ -148,7 +143,7 @@ export const SignOrExecuteForm = ({
 
         {isCounterfactualSafe ? (
           <CounterfactualForm {...props} safeTx={safeTx} isCreation={isCreation} onSubmit={onFormSubmit} onlyExecute />
-        ) : willExecute ? (
+        ) : !optionalExecute && willExecute ? (
           <ExecuteForm {...props} safeTx={safeTx} isCreation={isCreation} onSubmit={onFormSubmit} />
         ) : (
           <SignForm
