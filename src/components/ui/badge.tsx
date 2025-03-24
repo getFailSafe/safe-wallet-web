@@ -1,1 +1,1 @@
-// Checking Badge component implementation 
+// Checking Badge component implementation

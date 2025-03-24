@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, SvgIcon, Typography, Box } from '@mui/material'
+import { Grid, SvgIcon, Typography } from '@mui/material'
 import css from './styles.module.css'
 import CheckFilled from '@/public/images/common/check-filled.svg'
 
@@ -30,7 +30,7 @@ const NewSafe = () => {
               animation: 'none',
               boxShadow: '0 4px 16px rgba(255, 255, 255, 0.3)',
               border: '1px solid rgba(254, 251, 251, 0.15)',
-              borderRadius: '12px'
+              borderRadius: '12px',
             }}
           >
             <Typography variant="h1" fontSize={[44, null, 52]} lineHeight={1} letterSpacing={-1.5} color="white">
@@ -40,7 +40,8 @@ const NewSafe = () => {
             </Typography>
 
             <Typography mb={1} color="white">
-              The protective hand that shields your transactions. Our intelligent AI Co-Signer acts as a security gatekeeper with multi-layered access control.
+              The protective hand that shields your transactions. Our intelligent AI Co-Signer acts as a security
+              gatekeeper with multi-layered access control.
             </Typography>
 
             <ul className={css.bulletList}>

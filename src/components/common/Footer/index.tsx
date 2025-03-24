@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 import css from './styles.module.css'
 import { AppRoutes } from '@/config/routes'
 import packageJson from '../../../../package.json'
-import AppstoreButton from '../AppStoreButton'
 import ExternalLink from '../ExternalLink'
 import MUILink from '@mui/material/Link'
 import { HELP_CENTER_URL, IS_DEV, IS_OFFICIAL_HOST } from '@/config/constants'
@@ -48,7 +47,9 @@ const Footer = (): ReactElement | null => {
         {IS_OFFICIAL_HOST || IS_DEV ? (
           <>
             <li>
-              <Typography variant="caption">&copy;2022–{new Date().getFullYear()} Core Contributors FailSafe Team</Typography>
+              <Typography variant="caption">
+                &copy;2022–{new Date().getFullYear()} Core Contributors FailSafe Team
+              </Typography>
             </li>
             <li>
               <FooterLink href={getHref(AppRoutes.terms)}>Terms</FooterLink>
@@ -75,7 +76,7 @@ const Footer = (): ReactElement | null => {
             </li>
           </>
         ) : (
-          <li>{'Maintained by FailSafe - Securing Web3 with passion and expertise'}</li>
+          <li>Maintained by FailSafe - Securing Web3 with passion and expertise</li>
         )}
 
         <li>

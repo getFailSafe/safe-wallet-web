@@ -12,7 +12,6 @@ import SafeTokenWidget, { getSafeTokenAddress } from '@/components/common/SafeTo
 import NotificationCenter from '@/components/notification-center/NotificationCenter'
 import { AppRoutes } from '@/config/routes'
 import useChainId from '@/hooks/useChainId'
-import SafeLogo from '@/public/images/logo.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 import useSafeAddress from '@/hooks/useSafeAddress'
@@ -71,8 +70,12 @@ const Header = ({ onMenuToggle, onBatchToggle }: HeaderProps): ReactElement => {
       </div>
 
       <div className={classnames(css.element, css.hideMobile, css.logo)}>
-        <Link href={logoHref} passHref className={css.logoContainer} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-
+        <Link
+          href={logoHref}
+          passHref
+          className={css.logoContainer}
+          style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+        >
           <Image
             src={`/images/failsafe_${isDarkMode ? 'dark' : 'light'}.png`}
             alt="Protected by FAILSAFE"

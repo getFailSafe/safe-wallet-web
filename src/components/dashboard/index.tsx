@@ -6,9 +6,6 @@ import { Grid, Paper, Typography, Box, Button } from '@mui/material'
 import PendingTxsList from '@/components/dashboard/PendingTxs/PendingTxsList'
 import AssetsWidget from '@/components/dashboard/Assets'
 import Overview from '@/components/dashboard/Overview/Overview'
-import { FeaturedApps } from '@/components/dashboard/FeaturedApps/FeaturedApps'
-import SafeAppsDashboardSection from '@/components/dashboard/SafeAppsDashboardSection/SafeAppsDashboardSection'
-import GovernanceSection from '@/components/dashboard/GovernanceSection/GovernanceSection'
 import CreationDialog from '@/components/dashboard/CreationDialog'
 import { useRouter } from 'next/router'
 import { CREATION_MODAL_QUERY_PARM } from '../new-safe/create/logic'
@@ -42,15 +39,16 @@ const GuardWidget = (): ReactElement => {
             ? `linear-gradient(to right, ${theme.palette.secondary.dark}10, rgba(0, 0, 0, 0))`
             : `linear-gradient(to right, ${theme.palette.secondary.light}20, #ffffff)`,
         '&:hover': {
-          boxShadow: (theme) => theme.palette.mode === 'dark'
-            ? `0 8px 32px ${theme.palette.secondary.main}20`
-            : `0 8px 32px ${theme.palette.secondary.main}15`
+          boxShadow: (theme) =>
+            theme.palette.mode === 'dark'
+              ? `0 8px 32px ${theme.palette.secondary.main}20`
+              : `0 8px 32px ${theme.palette.secondary.main}15`,
         },
         cursor: 'pointer',
         transition: 'all 0.3s ease',
         position: 'relative',
         overflow: 'hidden',
-        width: '100%'
+        width: '100%',
       }}
       onClick={openGuardApp}
     >
@@ -61,7 +59,7 @@ const GuardWidget = (): ReactElement => {
               width: 28,
               height: 28,
               color: (theme) => theme.palette.secondary.main,
-              mr: 1.5
+              mr: 1.5,
             }}
           />
           <Typography variant="h5" component="h2" sx={{ fontWeight: 600 }}>
@@ -76,61 +74,105 @@ const GuardWidget = (): ReactElement => {
             color: (theme) => theme.palette.text.primary,
             borderLeft: (theme) => `3px solid ${theme.palette.secondary.main}`,
             pl: 2,
-            py: 1
+            py: 1,
           }}
         >
-          The protective hand that shields your transactions with intelligent AI Co-Signer
-          and multi-layered access control, ensuring only legitimate transactions are approved.
+          The protective hand that shields your transactions with intelligent AI Co-Signer and multi-layered access
+          control, ensuring only legitimate transactions are approved.
         </Typography>
 
-        <Box sx={{
-          display: 'grid',
-          gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr' },
-          gap: 2,
-          mb: 2
-        }}>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr' },
+            gap: 2,
+            mb: 2,
+          }}
+        >
           <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-            <VpnKeyIcon sx={{ width: 16, height: 16, color: (theme) => theme.palette.secondary.main, mt: 0.4, mr: 1 }} />
-            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>Safe Multisig</Typography>
+            <VpnKeyIcon
+              sx={{ width: 16, height: 16, color: (theme) => theme.palette.secondary.main, mt: 0.4, mr: 1 }}
+            />
+            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+              Safe Multisig
+            </Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-            <PublicIcon sx={{ width: 16, height: 16, color: (theme) => theme.palette.secondary.main, mt: 0.4, mr: 1 }} />
-            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>IP Restrictions & Geofencing</Typography>
+            <PublicIcon
+              sx={{ width: 16, height: 16, color: (theme) => theme.palette.secondary.main, mt: 0.4, mr: 1 }}
+            />
+            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+              IP Restrictions & Geofencing
+            </Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-            <CheckCircleIcon sx={{ width: 16, height: 16, color: (theme) => theme.palette.secondary.main, mt: 0.4, mr: 1 }} />
-            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>Contract Whitelisting</Typography>
+            <CheckCircleIcon
+              sx={{ width: 16, height: 16, color: (theme) => theme.palette.secondary.main, mt: 0.4, mr: 1 }}
+            />
+            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+              Contract Whitelisting
+            </Typography>
           </Box>
         </Box>
 
         {/* Additional security features */}
-        <Box sx={{
-          background: (theme) => theme.palette.mode === 'dark'
-            ? `${theme.palette.secondary.dark}15`
-            : `${theme.palette.secondary.light}15`,
-          p: 1.5,
-          borderRadius: 1,
-          mb: 2,
-          border: (theme) => `1px dashed ${theme.palette.secondary.main}40`
-        }}>
-          <Typography variant="subtitle2" sx={{ color: (theme) => theme.palette.secondary.main, mb: 1, fontWeight: 600, fontSize: '0.85rem' }}>
+        <Box
+          sx={{
+            background: (theme) =>
+              theme.palette.mode === 'dark'
+                ? `${theme.palette.secondary.dark}15`
+                : `${theme.palette.secondary.light}15`,
+            p: 1.5,
+            borderRadius: 1,
+            mb: 2,
+            border: (theme) => `1px dashed ${theme.palette.secondary.main}40`,
+          }}
+        >
+          <Typography
+            variant="subtitle2"
+            sx={{ color: (theme) => theme.palette.secondary.main, mb: 1, fontWeight: 600, fontSize: '0.85rem' }}
+          >
             Enhanced Security Features
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.8 }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: (theme) => theme.palette.secondary.main, mr: 1 }}></Box>
+              <Box
+                sx={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  bgcolor: (theme) => theme.palette.secondary.main,
+                  mr: 1,
+                }}
+              ></Box>
               <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
                 Time-based transaction constraints limit operations to specific hours
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: (theme) => theme.palette.secondary.main, mr: 1 }}></Box>
+              <Box
+                sx={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  bgcolor: (theme) => theme.palette.secondary.main,
+                  mr: 1,
+                }}
+              ></Box>
               <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
                 IP-address verification blocks transactions from unauthorized locations
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: (theme) => theme.palette.secondary.main, mr: 1 }}></Box>
+              <Box
+                sx={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  bgcolor: (theme) => theme.palette.secondary.main,
+                  mr: 1,
+                }}
+              ></Box>
               <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
                 Intelligent AI monitoring detects and prevents suspicious activities
               </Typography>
@@ -147,8 +189,8 @@ const GuardWidget = (): ReactElement => {
             color: (theme) => theme.palette.secondary.main,
             '&:hover': {
               backgroundColor: (theme) => `${theme.palette.secondary.main}10`,
-              borderColor: (theme) => theme.palette.secondary.main
-            }
+              borderColor: (theme) => theme.palette.secondary.main,
+            },
           }}
         >
           Open Guard
@@ -164,7 +206,7 @@ const GuardWidget = (): ReactElement => {
           width: 150,
           height: 150,
           borderRadius: '50%',
-          opacity: (theme) => theme.palette.mode === 'dark' ? 0.1 : 0.05,
+          opacity: (theme) => (theme.palette.mode === 'dark' ? 0.1 : 0.05),
           backgroundColor: (theme) => theme.palette.secondary.main,
           zIndex: 1,
         }}
