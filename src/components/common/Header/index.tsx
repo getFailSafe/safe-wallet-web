@@ -2,7 +2,7 @@ import type { Dispatch, SetStateAction } from 'react'
 import { type ReactElement } from 'react'
 import { useRouter } from 'next/router'
 import type { Url } from 'next/dist/shared/lib/router/router'
-import { IconButton, Paper } from '@mui/material'
+import { IconButton, Paper, useTheme } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import classnames from 'classnames'
 import css from './styles.module.css'
@@ -13,6 +13,7 @@ import NotificationCenter from '@/components/notification-center/NotificationCen
 import { AppRoutes } from '@/config/routes'
 import useChainId from '@/hooks/useChainId'
 import SafeLogo from '@/public/images/logo.svg'
+import Image from 'next/image'
 import Link from 'next/link'
 import useSafeAddress from '@/hooks/useSafeAddress'
 import BatchIndicator from '@/components/batch/BatchIndicator'
@@ -41,6 +42,8 @@ const Header = ({ onMenuToggle, onBatchToggle }: HeaderProps): ReactElement => {
   const showSafeToken = safeAddress && !!getSafeTokenAddress(chainId)
   const router = useRouter()
   const enableWc = useHasFeature(FEATURES.NATIVE_WALLETCONNECT)
+  const theme = useTheme()
+  const isDarkMode = theme.palette.mode === 'dark'
 
   // If on the home page, the logo should link to the Accounts or Welcome page, otherwise to the home page
   const logoHref = getLogoLink(router)
@@ -68,8 +71,16 @@ const Header = ({ onMenuToggle, onBatchToggle }: HeaderProps): ReactElement => {
       </div>
 
       <div className={classnames(css.element, css.hideMobile, css.logo)}>
-        <Link href={logoHref} passHref>
-          <SafeLogo alt="Safe logo" />
+        <Link href={logoHref} passHref className={css.logoContainer} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+
+          <Image
+            src={`/images/failsafe_${isDarkMode ? 'dark' : 'light'}.png`}
+            alt="Protected by FAILSAFE"
+            width={160}
+            height={50}
+            style={{ objectFit: 'contain' }}
+          />
+          {/* <SafeLogo alt="Safe logo" /> */}
         </Link>
       </div>
 

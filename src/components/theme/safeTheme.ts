@@ -221,6 +221,11 @@ const createSafeTheme = (mode: PaletteMode): Theme => {
             boxSizing: 'border-box',
             border: '2px solid transparent',
             boxShadow: 'none',
+            ...(theme.palette.mode === 'dark' && {
+              backgroundColor: 'rgba(30, 30, 30, 0.7)',
+              backdropFilter: 'blur(10px)',
+              borderColor: 'rgba(180, 255, 0, 0.1)',
+            }),
           }),
         },
       },
@@ -255,6 +260,10 @@ const createSafeTheme = (mode: PaletteMode): Theme => {
           root: ({ theme }) => ({
             borderRadius: theme.shape.borderRadius,
             backgroundImage: 'none',
+            ...(theme.palette.mode === 'dark' && {
+              backgroundColor: 'rgba(30, 30, 30, 0.7)',
+              backdropFilter: 'blur(10px)',
+            }),
           }),
         },
       },

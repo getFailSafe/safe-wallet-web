@@ -61,6 +61,16 @@ const Navigation = (): ReactElement => {
     if (href === AppRoutes.swap) {
       trackEvent({ ...SWAP_EVENTS.OPEN_SWAPS, label: SWAP_LABELS.sidebar })
     }
+
+    // Open the Guard app directly when clicked
+    if (href === AppRoutes.apps.index) {
+      const safeAddress = router.query.safe?.toString() || ''
+      if (safeAddress) {
+        const appUrl = 'https://app.safe.getfailsafe.com/'
+        const openAppUrl = `/apps/open?safe=${safeAddress}&appUrl=${encodeURIComponent(appUrl)}`
+        router.push(openAppUrl)
+      }
+    }
   }
 
   return (
@@ -83,7 +93,11 @@ const Navigation = (): ReactElement => {
           >
             <SidebarListItemButton
               selected={isSelected}
-              href={{ pathname: getRoute(item.href), query: { safe: router.query.safe } }}
+              href={
+                item.href === AppRoutes.apps.index
+                  ? undefined // Don't set href for Guard item to prevent default navigation
+                  : { pathname: getRoute(item.href), query: { safe: router.query.safe } }
+              }
             >
               {item.icon && <SidebarListItemIcon badge={getBadge(item)}>{item.icon}</SidebarListItemIcon>}
 
