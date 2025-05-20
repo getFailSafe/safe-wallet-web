@@ -48,7 +48,7 @@ const Footer = (): ReactElement | null => {
           <>
             <li>
               <Typography variant="caption">
-                &copy;2022–{new Date().getFullYear()} Core Contributors FailSafe Team
+                &copy;2022–{new Date().getFullYear()} Core Contributors FAILSAFE Team
               </Typography>
             </li>
             <li>
@@ -76,7 +76,7 @@ const Footer = (): ReactElement | null => {
             </li>
           </>
         ) : (
-          <li>Maintained by FailSafe - Securing Web3 with passion and expertise</li>
+          <li>Maintained by FAILSAFE - Securing Web3 with passion and expertise</li>
         )}
 
         <li>

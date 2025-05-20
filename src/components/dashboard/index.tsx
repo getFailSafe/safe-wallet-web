@@ -2,7 +2,7 @@ import FirstSteps from '@/components/dashboard/FirstSteps'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import type { ReactElement } from 'react'
 import dynamic from 'next/dynamic'
-import { Grid, Paper, Typography, Box, Button } from '@mui/material'
+import { Grid, Paper, Typography, Box, Button, useTheme } from '@mui/material'
 import PendingTxsList from '@/components/dashboard/PendingTxs/PendingTxsList'
 import AssetsWidget from '@/components/dashboard/Assets'
 import Overview from '@/components/dashboard/Overview/Overview'
@@ -28,51 +28,123 @@ const RecoveryHeader = dynamic(() => import('@/features/recovery/components/Reco
 const GuardWidget = (): ReactElement => {
   const { openGuardApp } = useGuardApp()
   const { safe } = useSafeInfo()
+  const theme = useTheme()
+  const isDarkMode = theme.palette.mode === 'dark'
 
   return (
     <Paper
       sx={{
-        p: 3,
-        borderRadius: 2,
-        background: (theme) =>
+        p: 0,
+        borderRadius: 3,
+        overflow: 'hidden',
+        position: 'relative',
+        boxShadow: (theme) =>
           theme.palette.mode === 'dark'
-            ? `linear-gradient(to right, ${theme.palette.secondary.dark}10, rgba(0, 0, 0, 0))`
-            : `linear-gradient(to right, ${theme.palette.secondary.light}20, #ffffff)`,
+            ? '0 10px 40px rgba(0, 0, 0, 0.25)'
+            : '0 10px 40px rgba(0, 0, 0, 0.1)',
+        transition: 'all 0.3s ease',
         '&:hover': {
+          transform: 'translateY(-4px)',
           boxShadow: (theme) =>
             theme.palette.mode === 'dark'
-              ? `0 8px 32px ${theme.palette.secondary.main}20`
-              : `0 8px 32px ${theme.palette.secondary.main}15`,
+              ? `0 14px 50px ${theme.palette.secondary.dark}40`
+              : `0 14px 50px ${theme.palette.secondary.light}40`,
         },
         cursor: 'pointer',
-        transition: 'all 0.3s ease',
-        position: 'relative',
-        overflow: 'hidden',
         width: '100%',
       }}
       onClick={openGuardApp}
     >
-      <Box sx={{ position: 'relative', zIndex: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <SecurityIcon
+      {/* Header section with accent color */}
+      <Box
+        sx={{
+          background: (theme) =>
+            theme.palette.mode === 'dark'
+              ? `linear-gradient(135deg, ${theme.palette.secondary.dark}, ${theme.palette.secondary.main}50)`
+              : `linear-gradient(135deg, ${theme.palette.secondary.light}70, ${theme.palette.secondary.main}30)`,
+          py: 2.5,
+          px: 3,
+          position: 'relative',
+          overflow: 'hidden',
+          borderBottom: (theme) =>
+            theme.palette.mode === 'dark'
+              ? '1px solid rgba(255, 255, 255, 0.1)'
+              : '1px solid rgba(0, 0, 0, 0.05)',
+        }}
+      >
+        <Box sx={{ position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <SecurityIcon
+              sx={{
+                width: 36,
+                height: 36,
+                color: (theme) => theme.palette.secondary.main,
+                filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.2))',
+                mr: 2,
+              }}
+            />
+            <Box>
+              <Typography variant="h4" component="h2" sx={{
+                fontWeight: 800,
+                fontSize: '1.75rem',
+                color: (theme) => theme.palette.mode === 'dark' ? '#fff' : theme.palette.secondary.dark,
+                textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)'
+              }}>
+                Co-Signer
+              </Typography>
+              <Typography variant="subtitle1" sx={{
+                color: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.6)',
+                fontWeight: 400,
+                mt: 0.5
+              }}>
+                Advanced Multi-Layer Security Protection
+              </Typography>
+            </Box>
+          </Box>
+          <Box
             sx={{
-              width: 28,
-              height: 28,
-              color: (theme) => theme.palette.secondary.main,
-              mr: 1.5,
+              bgcolor: 'rgba(0, 0, 0, 0.1)',
+              borderRadius: '50%',
+              p: 0.5,
+              display: { xs: 'none', sm: 'flex' },
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
-          />
-          <Typography variant="h5" component="h2" sx={{ fontWeight: 600 }}>
-            FailSafe Co-Signer
-          </Typography>
+          >
+            <Box
+              component="img"
+              src={`/images/protected-by-failsafe-${isDarkMode ? 'dark' : 'light'}.png`}
+              alt="FAILSAFE Logo"
+              sx={{ height: 40, width: 'auto', opacity: 0.9 }}
+            />
+          </Box>
         </Box>
 
-        <Typography
-          variant="body2"
+        {/* Background decorations */}
+        <Box
           sx={{
-            mb: 2,
+            position: 'absolute',
+            top: -20,
+            right: -20,
+            width: 150,
+            height: 150,
+            borderRadius: '50%',
+            opacity: 0.15,
+            background: (theme) => `radial-gradient(circle, ${theme.palette.secondary.main}, transparent 70%)`,
+            zIndex: 1,
+          }}
+        />
+      </Box>
+
+      {/* Content section */}
+      <Box sx={{ p: 3, bgcolor: (theme) => theme.palette.background.paper }}>
+        <Typography
+          variant="body1"
+          sx={{
+            mb: 3,
             color: (theme) => theme.palette.text.primary,
-            borderLeft: (theme) => `3px solid ${theme.palette.secondary.main}`,
+            fontWeight: 500,
+            borderLeft: (theme) => `4px solid ${theme.palette.secondary.main}`,
             pl: 2,
             py: 1,
           }}
@@ -81,136 +153,116 @@ const GuardWidget = (): ReactElement => {
           control, ensuring only legitimate transactions are approved.
         </Typography>
 
+        {/* Feature cards */}
         <Box
           sx={{
             display: 'grid',
             gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr' },
             gap: 2,
-            mb: 2,
+            mb: 3,
           }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-            <VpnKeyIcon
-              sx={{ width: 16, height: 16, color: (theme) => theme.palette.secondary.main, mt: 0.4, mr: 1 }}
-            />
-            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-              Safe Multisig
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-            <PublicIcon
-              sx={{ width: 16, height: 16, color: (theme) => theme.palette.secondary.main, mt: 0.4, mr: 1 }}
-            />
-            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-              IP Restrictions & Geofencing
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-            <CheckCircleIcon
-              sx={{ width: 16, height: 16, color: (theme) => theme.palette.secondary.main, mt: 0.4, mr: 1 }}
-            />
-            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-              Contract Whitelisting
-            </Typography>
-          </Box>
-        </Box>
-
-        {/* Additional security features */}
-        <Box
-          sx={{
-            background: (theme) =>
-              theme.palette.mode === 'dark'
-                ? `${theme.palette.secondary.dark}15`
-                : `${theme.palette.secondary.light}15`,
+          <Paper elevation={0} sx={{
             p: 1.5,
-            borderRadius: 1,
-            mb: 2,
-            border: (theme) => `1px dashed ${theme.palette.secondary.main}40`,
-          }}
-        >
-          <Typography
-            variant="subtitle2"
-            sx={{ color: (theme) => theme.palette.secondary.main, mb: 1, fontWeight: 600, fontSize: '0.85rem' }}
-          >
-            Enhanced Security Features
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.8 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Box
-                sx={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: '50%',
-                  bgcolor: (theme) => theme.palette.secondary.main,
-                  mr: 1,
-                }}
-              ></Box>
-              <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
-                Time-based transaction constraints limit operations to specific hours
+            border: '1px solid',
+            borderColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)',
+            borderRadius: 2,
+            bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.01)',
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              <VpnKeyIcon
+                sx={{ width: 20, height: 20, color: (theme) => theme.palette.secondary.main, mr: 1 }}
+              />
+              <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                Safe Multisig
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Box
-                sx={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: '50%',
-                  bgcolor: (theme) => theme.palette.secondary.main,
-                  mr: 1,
-                }}
-              ></Box>
-              <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
-                IP-address verification blocks transactions from unauthorized locations
+            <Typography variant="body2" sx={{ fontSize: '0.8rem', opacity: 0.8 }}>
+              Secure multi-signature approval flow
+            </Typography>
+          </Paper>
+
+          <Paper elevation={0} sx={{
+            p: 1.5,
+            border: '1px solid',
+            borderColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)',
+            borderRadius: 2,
+            bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.01)',
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              <PublicIcon
+                sx={{ width: 20, height: 20, color: (theme) => theme.palette.secondary.main, mr: 1 }}
+              />
+              <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                IP & Geo Protection
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Box
-                sx={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: '50%',
-                  bgcolor: (theme) => theme.palette.secondary.main,
-                  mr: 1,
-                }}
-              ></Box>
-              <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
-                Intelligent AI monitoring detects and prevents suspicious activities
+            <Typography variant="body2" sx={{ fontSize: '0.8rem', opacity: 0.8 }}>
+              Location-based security restrictions
+            </Typography>
+          </Paper>
+
+          <Paper elevation={0} sx={{
+            p: 1.5,
+            border: '1px solid',
+            borderColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)',
+            borderRadius: 2,
+            bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.01)',
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              <CheckCircleIcon
+                sx={{ width: 20, height: 20, color: (theme) => theme.palette.secondary.main, mr: 1 }}
+              />
+              <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                Contract Whitelist
               </Typography>
             </Box>
-          </Box>
+            <Typography variant="body2" sx={{ fontSize: '0.8rem', opacity: 0.8 }}>
+              Approved smart contract interactions
+            </Typography>
+          </Paper>
         </Box>
 
-        <Button
-          variant="outlined"
-          size="small"
-          sx={{
-            textTransform: 'none',
-            borderColor: (theme) => theme.palette.secondary.main,
-            color: (theme) => theme.palette.secondary.main,
-            '&:hover': {
-              backgroundColor: (theme) => `${theme.palette.secondary.main}10`,
-              borderColor: (theme) => theme.palette.secondary.main,
-            },
-          }}
-        >
-          Open Co-Signer
-        </Button>
-      </Box>
+        {/* Bottom action area */}
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mt: 3,
+          pt: 2,
+          borderTop: (theme) =>
+            theme.palette.mode === 'dark'
+              ? '1px solid rgba(255, 255, 255, 0.1)'
+              : '1px solid rgba(0, 0, 0, 0.05)',
+        }}>
+          <Typography
+            variant="body2"
+            sx={{
+              color: (theme) => theme.palette.text.secondary,
+              fontStyle: 'italic'
+            }}
+          >
+            AI-powered transaction monitoring
+          </Typography>
 
-      {/* Background decoration */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: -30,
-          right: -30,
-          width: 150,
-          height: 150,
-          borderRadius: '50%',
-          opacity: (theme) => (theme.palette.mode === 'dark' ? 0.1 : 0.05),
-          backgroundColor: (theme) => theme.palette.secondary.main,
-          zIndex: 1,
-        }}
-      />
+          <Button
+            variant="contained"
+            size="medium"
+            sx={{
+              textTransform: 'none',
+              bgcolor: '#000',
+              color: '#fff',
+              fontWeight: 600,
+              px: 3,
+              '&:hover': {
+                bgcolor: '#333',
+              },
+            }}
+          >
+            Launch Co-Signer
+          </Button>
+        </Box>
+      </Box>
     </Paper>
   )
 }
