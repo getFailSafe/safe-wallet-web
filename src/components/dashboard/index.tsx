@@ -38,65 +38,68 @@ const GuardWidget = (): ReactElement => {
         borderRadius: 3,
         overflow: 'hidden',
         position: 'relative',
-        boxShadow: (theme) =>
-          theme.palette.mode === 'dark'
-            ? '0 10px 40px rgba(0, 0, 0, 0.25)'
-            : '0 10px 40px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
         transition: 'all 0.3s ease',
         '&:hover': {
           transform: 'translateY(-4px)',
-          boxShadow: (theme) =>
-            theme.palette.mode === 'dark'
-              ? `0 14px 50px ${theme.palette.secondary.dark}40`
-              : `0 14px 50px ${theme.palette.secondary.light}40`,
+          boxShadow: '0 14px 50px rgba(0, 0, 0, 0.15)',
         },
         cursor: 'pointer',
         width: '100%',
       }}
       onClick={openGuardApp}
     >
-      {/* Header section with accent color */}
       <Box
         sx={{
-          background: (theme) =>
-            theme.palette.mode === 'dark'
-              ? `linear-gradient(135deg, ${theme.palette.secondary.dark}, ${theme.palette.secondary.main}50)`
-              : `linear-gradient(135deg, ${theme.palette.secondary.light}70, ${theme.palette.secondary.main}30)`,
+          background: isDarkMode
+            ? `linear-gradient(135deg, ${theme.palette.secondary.dark}, ${theme.palette.secondary.main}50)`
+            : `linear-gradient(135deg, ${theme.palette.secondary.light}70, ${theme.palette.secondary.main}30)`,
           py: 2.5,
           px: 3,
           position: 'relative',
           overflow: 'hidden',
-          borderBottom: (theme) =>
-            theme.palette.mode === 'dark'
-              ? '1px solid rgba(255, 255, 255, 0.1)'
-              : '1px solid rgba(0, 0, 0, 0.05)',
+          borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
         }}
       >
-        <Box sx={{ position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Box
+          sx={{
+            position: 'relative',
+            zIndex: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <SecurityIcon
               sx={{
                 width: 36,
                 height: 36,
-                color: (theme) => theme.palette.secondary.main,
-                filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.2))',
+                color: theme.palette.secondary.main,
                 mr: 2,
               }}
             />
             <Box>
-              <Typography variant="h4" component="h2" sx={{
-                fontWeight: 800,
-                fontSize: '1.75rem',
-                color: (theme) => theme.palette.mode === 'dark' ? '#fff' : theme.palette.secondary.dark,
-                textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)'
-              }}>
+              <Typography
+                variant="h4"
+                component="h2"
+                sx={{
+                  fontWeight: 800,
+                  fontSize: '1.75rem',
+                  color: isDarkMode ? '#fff' : theme.palette.secondary.dark,
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+                }}
+              >
                 Co-Signer
               </Typography>
-              <Typography variant="subtitle1" sx={{
-                color: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.6)',
-                fontWeight: 400,
-                mt: 0.5
-              }}>
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  color: isDarkMode ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.6)',
+                  fontWeight: 400,
+                  mt: 0.5,
+                }}
+              >
                 Advanced Multi-Layer Security Protection
               </Typography>
             </Box>
@@ -108,7 +111,7 @@ const GuardWidget = (): ReactElement => {
               p: 0.5,
               display: { xs: 'none', sm: 'flex' },
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
             }}
           >
             <Box
@@ -119,32 +122,16 @@ const GuardWidget = (): ReactElement => {
             />
           </Box>
         </Box>
-
-        {/* Background decorations */}
-        <Box
-          sx={{
-            position: 'absolute',
-            top: -20,
-            right: -20,
-            width: 150,
-            height: 150,
-            borderRadius: '50%',
-            opacity: 0.15,
-            background: (theme) => `radial-gradient(circle, ${theme.palette.secondary.main}, transparent 70%)`,
-            zIndex: 1,
-          }}
-        />
       </Box>
 
-      {/* Content section */}
-      <Box sx={{ p: 3, bgcolor: (theme) => theme.palette.background.paper }}>
+      <Box sx={{ p: 3, bgcolor: theme.palette.background.paper }}>
         <Typography
           variant="body1"
           sx={{
             mb: 3,
-            color: (theme) => theme.palette.text.primary,
+            color: theme.palette.text.primary,
             fontWeight: 500,
-            borderLeft: (theme) => `4px solid ${theme.palette.secondary.main}`,
+            borderLeft: `4px solid ${theme.palette.secondary.main}`,
             pl: 2,
             py: 1,
           }}
@@ -153,7 +140,6 @@ const GuardWidget = (): ReactElement => {
           control, ensuring only legitimate transactions are approved.
         </Typography>
 
-        {/* Feature cards */}
         <Box
           sx={{
             display: 'grid',
@@ -162,84 +148,63 @@ const GuardWidget = (): ReactElement => {
             mb: 3,
           }}
         >
-          <Paper elevation={0} sx={{
-            p: 1.5,
-            border: '1px solid',
-            borderColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)',
-            borderRadius: 2,
-            bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.01)',
-          }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-              <VpnKeyIcon
-                sx={{ width: 20, height: 20, color: (theme) => theme.palette.secondary.main, mr: 1 }}
-              />
-              <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                Safe Multisig
+          {/* Feature cards */}
+          {[
+            {
+              icon: <VpnKeyIcon sx={{ width: 20, height: 20, color: theme.palette.secondary.main, mr: 1 }} />,
+              title: 'Safe Multisig',
+              desc: 'Secure multi-signature approval flow',
+            },
+            {
+              icon: <PublicIcon sx={{ width: 20, height: 20, color: theme.palette.secondary.main, mr: 1 }} />,
+              title: 'IP & Geo Protection',
+              desc: 'Location-based security restrictions',
+            },
+            {
+              icon: <CheckCircleIcon sx={{ width: 20, height: 20, color: theme.palette.secondary.main, mr: 1 }} />,
+              title: 'Contract Whitelist',
+              desc: 'Approved smart contract interactions',
+            },
+          ].map((feature, index) => (
+            <Paper
+              key={index}
+              elevation={0}
+              sx={{
+                p: 1.5,
+                border: '1px solid',
+                borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)',
+                borderRadius: 2,
+                bgcolor: isDarkMode ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.01)',
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                {feature.icon}
+                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                  {feature.title}
+                </Typography>
+              </Box>
+              <Typography variant="body2" sx={{ fontSize: '0.8rem', opacity: 0.8 }}>
+                {feature.desc}
               </Typography>
-            </Box>
-            <Typography variant="body2" sx={{ fontSize: '0.8rem', opacity: 0.8 }}>
-              Secure multi-signature approval flow
-            </Typography>
-          </Paper>
-
-          <Paper elevation={0} sx={{
-            p: 1.5,
-            border: '1px solid',
-            borderColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)',
-            borderRadius: 2,
-            bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.01)',
-          }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-              <PublicIcon
-                sx={{ width: 20, height: 20, color: (theme) => theme.palette.secondary.main, mr: 1 }}
-              />
-              <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                IP & Geo Protection
-              </Typography>
-            </Box>
-            <Typography variant="body2" sx={{ fontSize: '0.8rem', opacity: 0.8 }}>
-              Location-based security restrictions
-            </Typography>
-          </Paper>
-
-          <Paper elevation={0} sx={{
-            p: 1.5,
-            border: '1px solid',
-            borderColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)',
-            borderRadius: 2,
-            bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.01)',
-          }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-              <CheckCircleIcon
-                sx={{ width: 20, height: 20, color: (theme) => theme.palette.secondary.main, mr: 1 }}
-              />
-              <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                Contract Whitelist
-              </Typography>
-            </Box>
-            <Typography variant="body2" sx={{ fontSize: '0.8rem', opacity: 0.8 }}>
-              Approved smart contract interactions
-            </Typography>
-          </Paper>
+            </Paper>
+          ))}
         </Box>
 
-        {/* Bottom action area */}
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          mt: 3,
-          pt: 2,
-          borderTop: (theme) =>
-            theme.palette.mode === 'dark'
-              ? '1px solid rgba(255, 255, 255, 0.1)'
-              : '1px solid rgba(0, 0, 0, 0.05)',
-        }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            mt: 3,
+            pt: 2,
+            borderTop: isDarkMode ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.05)',
+          }}
+        >
           <Typography
             variant="body2"
             sx={{
-              color: (theme) => theme.palette.text.secondary,
-              fontStyle: 'italic'
+              color: theme.palette.text.secondary,
+              fontStyle: 'italic',
             }}
           >
             AI-powered transaction monitoring
