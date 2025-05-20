@@ -46,7 +46,7 @@ export const navItems: NavItem[] = [
     href: AppRoutes.addressBook,
   },
   {
-    label: 'Guard',
+    label: 'Co-Signer',
     icon: <SvgIcon component={AppsIcon} inheritViewBox />,
     href: AppRoutes.apps.index,
   },

@@ -24,7 +24,7 @@ import { useGuardApp } from '@/hooks/useGuardApp'
 
 const RecoveryHeader = dynamic(() => import('@/features/recovery/components/RecoveryHeader'))
 
-// Guard Widget Component
+// Co-Signer Widget Component
 const GuardWidget = (): ReactElement => {
   const { openGuardApp } = useGuardApp()
   const { safe } = useSafeInfo()
@@ -63,7 +63,7 @@ const GuardWidget = (): ReactElement => {
             }}
           />
           <Typography variant="h5" component="h2" sx={{ fontWeight: 600 }}>
-            FailSafe Guard
+            FailSafe Co-Signer
           </Typography>
         </Box>
 
@@ -193,7 +193,7 @@ const GuardWidget = (): ReactElement => {
             },
           }}
         >
-          Open Guard
+          Open Co-Signer
         </Button>
       </Box>
 
@@ -240,7 +240,7 @@ const Dashboard = (): ReactElement => {
 
         {safe.deployed && (
           <>
-            {/* Add Guard Widget */}
+            {/* Add Co-Signer Widget */}
             <Grid item xs={12}>
               <GuardWidget />
             </Grid>
